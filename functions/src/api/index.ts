@@ -1,16 +1,13 @@
 import * as express from 'express';
-import * as cors from 'cors';
-import * as bodyParser from 'body-parser';
 
-import logger from './logger'
+import * as graphql from './routes/graphql'
 import * as test from './routes/test'
+import * as misc from './routes/misc'
 
 const app = express()
 
-app.use(bodyParser.json());
-app.use(cors({ origin: true }));
-app.use(logger)
-
+graphql.routesConfig(app)
 test.routesConfig(app)
+misc.routesConfig(app)
 
 export default app;

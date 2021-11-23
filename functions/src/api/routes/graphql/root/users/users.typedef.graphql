@@ -1,0 +1,15 @@
+type Query {
+    users: Users
+}
+
+type Users {
+    me: User
+    user(id: String): User
+}
+
+type User {
+    id: String!
+    name: String!
+    @auth(requires: OWNER) hubs: [Hub!]!
+    @auth(requires: OWNER) createHub(name: String): Hub!
+}

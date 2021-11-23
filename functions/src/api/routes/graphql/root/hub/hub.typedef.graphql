@@ -1,0 +1,17 @@
+type Query {
+    hub(id: String): Hub
+}
+
+type Hub {
+    id: String!
+    name: String!
+    items: [Item!]!
+    @auth(requires: OWNER) createItem(url: URL!): Item!
+}
+
+scalar URL
+
+type Item {
+    id: String!
+    url: URL!
+}
