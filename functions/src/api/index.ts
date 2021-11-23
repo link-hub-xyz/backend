@@ -10,4 +10,4 @@ graphql.routesConfig(app)
 test.routesConfig(app)
 misc.routesConfig(app)
 
-export default app;
+export default app

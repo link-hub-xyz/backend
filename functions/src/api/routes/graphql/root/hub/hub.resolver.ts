@@ -26,7 +26,10 @@ export default {
         id(id: String) {
             return id
         },
-        async url(id: String) {
+        url(id: String, _args: any, context: any) {
+            return `${context.origin}/api/items/${id}`
+        },
+        async origin(id: String) {
             const item = await controller.item(id)
             return item?.url ?? ""
         }

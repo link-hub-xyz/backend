@@ -13,7 +13,8 @@ const graphql = graphqlHTTP(async (request, _response, _params) => {
     return {
         schema: schema,
         context: {
-            ... await authContext(request)
+            ... await authContext(request),
+            origin: `${process.env.FIREBASE_AUTH_EMULATOR_HOST ? 'http' : 'https'}://${request.headers['x-forwarded-host']}`
         },
         graphiql: true
     } as OptionsData

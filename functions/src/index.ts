@@ -5,6 +5,7 @@ import { getAuth, connectAuthEmulator } from "firebase/auth";
 import firebaseConfig from './firebase-config'
 
 import handleApiRequest from './api'
+import handleItemsRequest from './items'
 
 admin.initializeApp()
 backend.initializeApp(firebaseConfig)
@@ -18,5 +19,6 @@ if (process.env.FIREBASE_AUTH_EMULATOR_HOST) {
 }
 
 export const api = functions.https.onRequest(handleApiRequest)
+export const items = functions.https.onRequest(handleItemsRequest)
 
 // export const didAuthUser = functions.auth.user().onCreate(handleCreateUser)

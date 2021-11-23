@@ -29,4 +29,3 @@ signInWithEmailAndPassword(auth, 'test@email.com', 'password')
   });
 
 export default auth;
-// export default {};
