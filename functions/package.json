@@ -1,6 +1,7 @@
 {
   "name": "functions",
   "scripts": {
+    "lint": "eslint . --ext .ts --ext .tsx --ext .js",
     "build": "tsc",
     "watch": "tsc-watch",
     "watch-inspect": "tsc-watch --onSuccess \"yarn inspect\"",
@@ -16,8 +17,12 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "eslint": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
     "express": "^4.17.1",
     "firebase": "^9.0.1",
     "firebase-admin": "^9.8.0",
