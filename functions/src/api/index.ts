@@ -6,8 +6,8 @@ import * as misc from './routes/misc'
 
 const app = express()
 
+misc.routesConfig(app)
 graphql.routesConfig(app)
 test.routesConfig(app)
-misc.routesConfig(app)
 
 export default app

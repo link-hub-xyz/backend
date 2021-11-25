@@ -5,6 +5,6 @@ import logger from './logger'
 
 export function routesConfig(app: Application) {
     app.use(bodyParser.json());
-    app.use(cors({ origin: '*' })); //FOR DEBUG FROM DIFFERENT HOST!
+    app.use(cors({ origin: true })); //FOR DEBUG FROM DIFFERENT HOST!
     app.use(logger)
 }
