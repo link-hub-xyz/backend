@@ -14,7 +14,7 @@ export default {
             return hub.name
         },
         url(hub: any, _args: any, context: any) {
-            return `${context.origin}/#/main/dashboard/hubs/${hub.id}`
+            return `${context.origin}/api/hubs/${hub.id}`
         },
         items(hub: any) {
             return hub.items ?? []

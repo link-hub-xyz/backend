@@ -10,7 +10,6 @@ const schema = makeExecutableSchema({
 });
 
 const graphql = graphqlHTTP(async (request, _response, _params) => {
-    console.info(request);
     return {
         schema: schema,
         context: {
