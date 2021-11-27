@@ -1,5 +1,14 @@
 {
   "projects": {
-    "default": "linkhub-564ef"
+    "prod": "linkhub-564ef"
+  },
+  "targets": {
+    "linkhub-564ef": {
+      "hosting": {
+        "api": [
+          "api-linkhub"
+        ]
+      }
+    }
   }
 }

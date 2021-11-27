@@ -5,6 +5,7 @@ type Query {
 type Hub {
     id: String!
     name: String!
+    url: URL!
     items: [Item!]!
     @auth(requires: OWNER) createItem(url: URL!): Item!
 }
