@@ -20,6 +20,10 @@
         "destination": "/index.html"
       },
       {
+        "source": "/api/hubs/**",
+        "function": "hubs"
+      },
+      {
         "source": "/api/items/**",
         "function": "items"
       },
