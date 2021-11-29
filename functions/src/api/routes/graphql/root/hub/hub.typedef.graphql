@@ -4,6 +4,7 @@ type Query {
 
 type Hub {
     id: String!
+    creator: String!
     name: String!
     url: URL!
     items: [Item!]!

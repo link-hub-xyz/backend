@@ -1,4 +1,5 @@
 import * as controller from './hub.controller'
+// import * from 'url';
 
 export default {
     Query: {
@@ -9,6 +10,9 @@ export default {
     Hub: {
         id(hub: any) {
             return hub.id
+        },
+        creator(hub: any) {
+            return hub.creator
         },
         name(hub: any) {
             return hub.name
