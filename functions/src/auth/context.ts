@@ -19,7 +19,7 @@ declare global {
 
 export default async function context(req: Request, res: Response, next: any) {
     const { authorization } = req.headers
-    var token;
+    let token;
 
     if (authorization && authorization.startsWith('Bearer')) {
         const split = authorization.split('Bearer ')
