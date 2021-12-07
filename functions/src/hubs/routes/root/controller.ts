@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import * as admin from 'firebase-admin'
+// import * as admin from 'firebase-admin'
 
 export async function redirectToDestination(req: Request, res: Response) {
 
