@@ -4,10 +4,9 @@ import * as admin from 'firebase-admin'
 export async function redirectToDestination(req: Request, res: Response) {
 
     const item = await getItem(req.params.id)
-    const data = item.data()
-    const hub = data.hub && await getHub(data.hub)
+    const hub = item.data().hub && await getHub(item.data().hub)
 
-    res.redirect(data.url)
+    res.redirect(item.data().url)
 
     if (hub?.data().creator != req.context?.id) {
         item.ref.update({
