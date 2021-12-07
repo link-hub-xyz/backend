@@ -4,13 +4,18 @@ import * as admin from 'firebase-admin'
 export async function redirectToDestination(req: Request, res: Response) {
 
     const item = await getItem(req.params.id)
-    const hub = item.data().hub && await getHub(item.data().hub)
+    if (!item) {
+        res.send(404)
+        return
+    }
     res.redirect(item.data().url)
-
+    
+    const hub = item.data().hub && await getHub(item.data().hub)
     if (hub?.data().creator != req.context?.id) {
         item.ref.update({
             analytics: admin.firestore.FieldValue.arrayUnion({
                 ip: req.clientIp,
+                date: Date(),
                 ...req.context
             })
         })
