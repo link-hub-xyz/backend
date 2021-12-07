@@ -23,12 +23,12 @@ export async function createItem(
         .collection('items')
         .doc(itemId);
 
-    itemDoc.set({
+    await itemDoc.set({
         url: url,
         hub: hub,
     });
 
-    hubSnapshot
+    await hubSnapshot
         .ref
         .update({ items: admin.firestore.FieldValue.arrayUnion(itemDoc) })
 
@@ -53,9 +53,9 @@ export async function createHub(
         .collection('hubs')
         .doc(hubId)
 
-    doc.set(raw)
+    await doc.set(raw)
 
-    return await doc as FirebaseFirestore.DocumentReference<Hub>
+    return db.doc(`hubs/${hubId}`) as FirebaseFirestore.DocumentReference<Hub>
 }
 
 export function hub(id: String): FirebaseFirestore.DocumentReference<Hub> {
