@@ -32,7 +32,7 @@ export async function createItem(
         .ref
         .update({ items: admin.firestore.FieldValue.arrayUnion(itemDoc) })
 
-    return itemDoc as FirebaseFirestore.DocumentReference<Item>
+    return db.doc(`items/${itemId}`) as FirebaseFirestore.DocumentReference<Item>
 }
 
 export async function createHub(
