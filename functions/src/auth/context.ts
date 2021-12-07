@@ -19,17 +19,20 @@ declare global {
 
 export default async function context(req: Request, res: Response, next: any) {
     const { authorization } = req.headers
+    var token;
 
-    if (!authorization || !authorization.startsWith('Bearer')) {
-        return next()
+    if (authorization && authorization.startsWith('Bearer')) {
+        const split = authorization.split('Bearer ')
+        if (split.length == 2) {
+            token = split[1]
+        }
     }
 
-    const split = authorization.split('Bearer ')
-    if (split.length !== 2) {
-        return next()
+    if (req.params['link-hub-token']) {
+        token = req.params['link-hub-token']
     }
-    const token = split[1]
 
+    if (!token) return next()
 
     const decodedToken: admin.auth.DecodedIdToken = await admin.auth().verifyIdToken(token);
 
