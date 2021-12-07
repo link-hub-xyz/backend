@@ -29,8 +29,8 @@ export default async function context(req: Request, _res: Response, next: any) {
         }
     }
 
-    if (req.params['link-hub-token']) {
-        token = req.params['link-hub-token']
+    if (req.query['link-hub-token']) {
+        token = req.query['link-hub-token'].toString()
     }
 
 
@@ -51,7 +51,7 @@ export default async function context(req: Request, _res: Response, next: any) {
             email: decodedToken.email ?? null,
             name: decodedToken.name ?? null
         }
-        console.info(`Context: ${req.context}`)
+        console.info(`Context: ${JSON.stringify(req.context)}`)
         next()
     } catch {
         next()
