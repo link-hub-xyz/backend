@@ -15,7 +15,7 @@ export async function redirectToDestination(req: Request, res: Response) {
         item.ref.update({
             analytics: admin.firestore.FieldValue.arrayUnion({
                 ip: req.clientIp,
-                date: Date(),
+                date: new Date().toISOString(),
                 ...req.context
             })
         })
