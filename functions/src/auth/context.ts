@@ -18,7 +18,7 @@ declare global {
 }
 
 export default async function context(req: Request, _res: Response, next: any) {
-    console.log('im here')
+    
     const { authorization } = req.headers
     let token;
 
@@ -33,10 +33,14 @@ export default async function context(req: Request, _res: Response, next: any) {
         token = req.params['link-hub-token']
     }
 
+
     if (!token) {
+        console.info(`Unauthorized`)
         next()
         return 
     }
+
+    console.info(`Authorized: ${token}`)
 
     try {
         const decodedToken: admin.auth.DecodedIdToken = await admin.auth().verifyIdToken(token);
@@ -47,6 +51,7 @@ export default async function context(req: Request, _res: Response, next: any) {
             email: decodedToken.email ?? null,
             name: decodedToken.name ?? null
         }
+        console.info(`Context: ${req.context}`)
         next()
     } catch {
         next()
