@@ -10,9 +10,9 @@ declare global {
 
         interface Context {
             id: string
-            role: string
-            email: string | undefined
-            name: string
+            role: string | null
+            email: string | null
+            name: string | null
         }
     }
 }
@@ -35,9 +35,9 @@ export default async function context(req: Request, res: Response, next: any) {
 
     req.context = {
         id: decodedToken.uid,
-        role: decodedToken.role,
-        email: decodedToken.email,
-        name: decodedToken.name
+        role: decodedToken.role ?? null,
+        email: decodedToken.email ?? null,
+        name: decodedToken.name ?? null
     }
     next()
 }

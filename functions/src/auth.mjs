@@ -13,7 +13,7 @@ app.initializeApp({
 
 const auth = getAuth();
 
-connectAuthEmulator(getAuth(), `http://localhost:9099`)
+connectAuthEmulator(auth, `http://localhost:9099`)
 
 signInWithEmailAndPassword(auth, 'test@email.com', 'password')
   .then( async (userCredential) => {
