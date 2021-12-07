@@ -21,12 +21,12 @@ export default async function context(req: Request, res: Response, next: any) {
     const { authorization } = req.headers
 
     if (!authorization || !authorization.startsWith('Bearer')) {
-        return
+        return next()
     }
 
     const split = authorization.split('Bearer ')
     if (split.length !== 2) {
-        return
+        return next()
     }
     const token = split[1]
 
@@ -39,4 +39,5 @@ export default async function context(req: Request, res: Response, next: any) {
         email: decodedToken.email,
         name: decodedToken.name
     }
+    next()
 }
