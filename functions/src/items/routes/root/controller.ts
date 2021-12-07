@@ -7,7 +7,7 @@ export async function redirectToDestination(req: Request, res: Response) {
     const data = item.data()
     const hub = data.hub && await getHub(data.hub)
 
-    res.redirect(data.url);
+    res.redirect(data.url)
 
     if (hub?.data().creator != req.context?.id) {
         item.ref.update({

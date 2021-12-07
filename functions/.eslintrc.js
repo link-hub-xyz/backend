@@ -24,6 +24,7 @@ module.exports = {
     "import",
   ],
   rules: {
+    "@typescript-eslint/no-namespace": "off",
     "import/no-unresolved": 1,
     "@typescript-eslint/ban-types": 0,
   },
