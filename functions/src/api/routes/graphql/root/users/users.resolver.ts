@@ -26,11 +26,6 @@ export default {
         },
         hubs(id: String) {
             return controller.hubs(id)
-        }, 
-        createHub(id: String, args: any, context: any) {
-            if (id != context.id) throw 'You are not allowed to create hub for another user.'
-            if (!args.name) throw "Hub must have not empty name."
-            return controller.createHub(id, args.name)
         }
     }
 }

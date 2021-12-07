@@ -1,57 +1,64 @@
 import * as admin from 'firebase-admin'
 import { v4 } from 'uuid'
+import Hub from '../../../../../documents/hub'
+import Item from '../../../../../documents/item'
 
-export async function item(id: String) {
-    const db = admin.firestore()
-    const response = await db.collection('items')
-        .where(admin.firestore.FieldPath.documentId(), '==', id)
-        .get()
-    const hub = response.docs[0]?.data()
-    return hub
-}
+export async function createItem(
+    hubId: String,
+    userId: String,
+    url: String
+): Promise<FirebaseFirestore.DocumentReference<Item>> {
 
-export async function itemExists(id: String) {
-    const db = admin.firestore()
-    const response = await db.collection('items')
-        .where(admin.firestore.FieldPath.documentId(), '==', id)
-        .get()
-    return response.docs.values.length > 0
-}
-
-export async function createItem(hubId: String, url: String) {
     const db = admin.firestore()
     const itemId = v4()
 
-    const raw = {
-        url: url,
-        hub: hubId,
-    };
+    const hub = db.doc(`hubs/${hubId}`)
+    const hubSnapshot = await hub.get();
+
+    if (hubSnapshot.data()?.creator != userId) {
+        throw "Only hub creator can create items"
+    }
 
     const itemDoc = await db
         .collection('items')
-        .doc(itemId)
-    
-    itemDoc.set(raw)
-    const item = await itemDoc.get()
+        .doc(itemId);
 
-    const hubDoc = await db.collection('hubs')
-        .where(admin.firestore.FieldPath.documentId(), '==', hubId)
-        .get()
+    itemDoc.set({
+        url: url,
+        hub: hub,
+    });
 
-    hubDoc.docs[0].ref
-        .update({ items: admin.firestore.FieldValue.arrayUnion(item.id) })
-    
-    return { id: item.id, ...item.data() }
+    hubSnapshot
+        .ref
+        .update({ items: admin.firestore.FieldValue.arrayUnion(itemDoc) })
+
+    return itemDoc as FirebaseFirestore.DocumentReference<Item>
 }
 
-export async function hub(id: String) {
+export async function createHub(
+    userId: String,
+    name: String
+): Promise<FirebaseFirestore.DocumentReference<Hub>> {
+
     const db = admin.firestore()
+    const hubId = v4()
 
-    const response = await db.collection('hubs')
-        .where(admin.firestore.FieldPath.documentId(), '==', id)
-        .get()
+    const raw = {
+        name: name,
+        creator: userId,
+        items: []
+    };
 
-    const doc = response.docs[0]
+    const doc = await db
+        .collection('hubs')
+        .doc(hubId)
 
-    return doc && { id: doc.id, ...doc.data() } 
+    doc.set(raw)
+
+    return await doc as FirebaseFirestore.DocumentReference<Hub>
+}
+
+export function hub(id: String): FirebaseFirestore.DocumentReference<Hub> {
+    const db = admin.firestore()
+    return db.doc(`hubs/${id}`) as FirebaseFirestore.DocumentReference<Hub>
 }

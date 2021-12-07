@@ -1,5 +1,12 @@
+scalar URL
+
 type Query {
     hub(id: String): Hub
+}
+
+type Mutation {
+    createHub(name: String!): Hub!
+    createItem(id: String!, url: URL!): Item!
 }
 
 type Hub {
@@ -8,10 +15,7 @@ type Hub {
     name: String!
     url: URL!
     items: [Item!]!
-    @auth(requires: OWNER) createItem(url: URL!): Item!
 }
-
-scalar URL
 
 type Item {
     id: String!

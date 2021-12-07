@@ -9,7 +9,7 @@ const schema = makeExecutableSchema({
     resolvers: root.resolvers
 });
 
-const graphql = graphqlHTTP(async (request, _response, _params) => {
+const graphql = graphqlHTTP(async (request) => {
     return {
         schema: schema,
         context: {

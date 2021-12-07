@@ -1,5 +1,6 @@
 import * as controller from './hub.controller'
-// import * from 'url';
+import Hub from '../../../../../documents/hub'
+import Item from '../../../../../documents/item'
 
 export default {
     Query: {
@@ -7,38 +8,45 @@ export default {
             return controller.hub(args.id)
         }
     },
+    Mutation: {
+        createHub(_root: any, args: any, context: any) {
+            if (!args.name) throw "Hub must have not empty name."
+            return controller.createHub(context.id, args.name)
+        },
+        createItem(_root: any, args: any, context: any) {
+            return controller.createItem(args.id, context.id, args.url)
+        }
+    },
     Hub: {
-        id(hub: any) {
+        id(hub: FirebaseFirestore.DocumentReference<Hub>) {
             return hub.id
         },
-        creator(hub: any) {
-            return hub.creator
+        async creator(hub: FirebaseFirestore.DocumentReference<Hub>) {
+            return (await hub.get()).data()?.creator
         },
-        name(hub: any) {
-            return hub.name
+        async name(hub: FirebaseFirestore.DocumentReference<Hub>) {
+            return (await hub.get()).data()?.name
         },
-        url(hub: any, _args: any, context: any) {
+        url(hub: FirebaseFirestore.DocumentReference<Hub>, _args: any, context: any) {
             return `${context.origin}/api/hubs/${hub.id}`
         },
-        items(hub: any) {
-            return hub.items ?? []
-        },
-        async createItem(hub: any, args: any, context: any) {
-            if (hub.creator != context.id) throw "Only creator of this hub can create items."
-            const item = await controller.createItem(hub.id, args.url)
-            return item.id
+        async items(hub: FirebaseFirestore.DocumentReference<Hub>) {
+            const doc = await hub.get()
+            const data = await doc.data()
+            return data?.items ?? []
         }
     },
     Item: {
-        id(id: String) {
-            return id
+        id(ref: FirebaseFirestore.DocumentReference<Item>) {
+            return ref.id
         },
-        url(id: String, _args: any, context: any) {
-            return `${context.origin}/api/items/${id}`
+        url(ref: FirebaseFirestore.DocumentReference<Item>, _args: any, context: any) {
+            return `${context.origin}/api/items/${ref.id}`
         },
-        async origin(id: String) {
-            const item = await controller.item(id)
-            return item?.url ?? ""
+        async origin(ref: FirebaseFirestore.DocumentReference<Item>) {
+            const doc = await ref.get()
+            const data = await doc.data()
+            return data?.url
         }
     }
 }

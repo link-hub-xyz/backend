@@ -9,15 +9,14 @@ export async function redirectToDestination(req: Request, res: Response) {
         return
     }
     res.redirect(item.data().url)
-    
+
     const hub = item.data().hub && await getHub(item.data().hub)
     if (hub?.data().creator != req.context?.id) {
-        item.ref.update({
-            analytics: admin.firestore.FieldValue.arrayUnion({
-                ip: req.clientIp,
-                date: new Date().toISOString(),
-                ...req.context
-            })
+        const timestamp = admin.firestore.FieldValue.serverTimestamp()
+        item.ref.collection('analytics').add({
+            ip: req.clientIp,
+            date: timestamp,
+            ...req.context
         })
     }
 }

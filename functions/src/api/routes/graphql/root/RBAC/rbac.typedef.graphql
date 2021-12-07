@@ -1,7 +1,0 @@
-directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION
-
-enum Role {
-    OWNER
-    ADMIN
-    USER
-}

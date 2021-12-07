@@ -1,9 +1,0 @@
-# scalar JSON
-
-type Query {
-    status: Boolean
-}
-
-type Mutation {
-    status: Boolean
-}
