@@ -24,7 +24,7 @@ export default async function daily(id: String) {
         const query = intervalQuery(analyticsQuery, interval.start, interval.end);
         return {
             value: (await query.get()).docs.length,
-            date: interval.end
+            date: interval.start
         };
     }));
 
