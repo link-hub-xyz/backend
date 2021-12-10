@@ -76,8 +76,7 @@ export default {
         retention(input: AnalyticsInput) {
             switch (input.type) {
                 case AnalyticsInputType.user:
-                    input.userId;
-                    break;
+                    return controller.retention(input.userId);
 
                 case AnalyticsInputType.hub:
                     input.hubId;
