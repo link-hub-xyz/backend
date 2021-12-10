@@ -1,0 +1,14 @@
+type User {
+    analytics: Analytics!
+}
+
+type Analytics {
+    daily: [AnalyticsSampleData!]!
+    retention: [AnalyticsSampleData!]!
+    total: [AnalyticsSampleData!]!
+}
+
+type AnalyticsSampleData {
+    value: Int!
+    date: DateTime!
+}

@@ -11,7 +11,6 @@ const typesArray = loadFilesSync(
     }
 )
 
-console.log(typesArray)
 const typedefs = mergeTypeDefs(typesArray)
 
 export default typedefs;

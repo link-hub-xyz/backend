@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import * as admin from 'firebase-admin'
+import { v4 } from 'uuid'
 
 export async function redirectToDestination(req: Request, res: Response) {
 
@@ -12,11 +13,22 @@ export async function redirectToDestination(req: Request, res: Response) {
 
     const hub = item.data().hub && await getHub(item.data().hub)
     if (hub?.data().creator != req.context?.id) {
-        const timestamp = admin.firestore.FieldValue.serverTimestamp()
-        item.ref.collection('analytics').add({
+
+        const db = admin.firestore();
+        const analyticsId = v4();
+        const analyticsDoc = await db
+            .collection('analytics')
+            .doc(analyticsId);
+
+        analyticsDoc.set({
+            item: item.ref,
             ip: req.clientIp,
-            date: timestamp,
+            date: admin.firestore.FieldValue.serverTimestamp(),
             ...req.context
+        });
+
+        item.ref.update({ 
+            analytics: admin.firestore.FieldValue.arrayUnion(analyticsDoc) 
         })
     }
 }
